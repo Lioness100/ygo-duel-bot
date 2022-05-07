@@ -1,0 +1,4 @@
+apps:
+  - name: 'story-verification-bot'
+    script: './dist/index.js'
+    node_args: '--enable-source-maps --experimental-specifier-resolution=node'

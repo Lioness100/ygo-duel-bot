@@ -1,0 +1,12 @@
+[
+	{ "name": "Coward", "role": "971945609454035036", "wins": 0 },
+	{ "name": "Rookie Duelist", "role": "971945768372027473", "wins": 5 },
+	{ "name": "Semi-Pro Duelist", "role": "", "wins": 25 },
+	{ "name": "Pro Duelist", "role": "", "wins": 50 },
+	{ "name": "Veteran Duelist", "role": "", "wins": 75 },
+	{ "name": "Expert Duelist", "role": "", "wins": 100 },
+	{ "name": "Master Duelist", "role": "", "wins": 125 },
+	{ "name": "Legendary Duelist", "role": "", "wins": 150 },
+	{ "name": "Anime Duelist", "role": "", "wins": 175 },
+	{ "name": "King of Games", "role": "", "wins": 250 }
+]
