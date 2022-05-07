@@ -17,7 +17,7 @@ export const viewLeaderboard = async (interaction: CommandInteraction) => {
 
 	for (const [chunkIdx, entryChunk] of chunk(
 		entries.sort(([, { gamesWon: a }], [, { gamesWon: b }]) => b - a),
-		1
+		10
 	).entries()) {
 		handler.addPageEmbed((embed) => {
 			const descriptions = entryChunk.map(([id, profile], idx) => {

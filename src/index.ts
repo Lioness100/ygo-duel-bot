@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 import { Client, Collection, Intents, LimitedCollection } from 'discord.js';
 import { onInteractionCreate } from './listeners/interactionCreate';
-import { onGuildMemberAdd } from 'listeners/guildMemberAdd';
+import { onGuildMemberAdd } from './listeners/guildMemberAdd';
 
 const necessaryManagers = new Set([
 	'GuildManager', //
