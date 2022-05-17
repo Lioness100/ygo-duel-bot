@@ -15,10 +15,22 @@ export const viewLeaderboard = async (interaction: CommandInteraction) => {
 		(idx) => ({ label: `Ranks ${(idx - 1) * 10} to ${idx * 10}`, emoji: [undefined, '🥇', '🥈', '🥉'][idx] })
 	);
 
-	for (const [chunkIdx, entryChunk] of chunk(
-		entries.sort(([, { gamesWon: a }], [, { gamesWon: b }]) => b - a),
-		10
-	).entries()) {
+	entries.sort(([, a], [, b]) => {
+		if (b.gamesWon !== a.gamesWon) {
+			return b.gamesWon - a.gamesWon;
+		}
+
+		const aRate = a.gamesWon / a.gamesPlayed;
+		const bRate = b.gamesWon / b.gamesPlayed;
+
+		if (aRate !== bRate) {
+			return bRate - aRate;
+		}
+
+		return 0;
+	});
+
+	for (const [chunkIdx, entryChunk] of chunk(entries, 10).entries()) {
 		handler.addPageEmbed((embed) => {
 			const descriptions = entryChunk.map(([id, profile], idx) => {
 				const prefixDisplay = (chunkIdx ? undefined : ['🥇', '🥈', '🥉'][idx]) ?? `${idx + 1 + chunkIdx * 10}.`;
