@@ -31,8 +31,9 @@ export const submitResult = async (interaction: SelectMenuInteraction<'cached'>)
 		await interaction.message.edit({ components: [] });
 
 		if (!canceled) {
+			const now = Date.now();
 			[winner, loser].forEach(async (id) => {
-				const profile = (db.data[id] ??= { gamesPlayed: 0, gamesWon: 0, timeInDuelsSum: 0 });
+				const profile = (db.data[id] ??= { gamesPlayed: 0, gamesWon: 0, timeInDuelsSum: 0, history: [] });
 
 				profile.gamesPlayed++;
 				profile.timeInDuelsSum += duration;
@@ -42,6 +43,7 @@ export const submitResult = async (interaction: SelectMenuInteraction<'cached'>)
 					const nextRank = ranks[nextRankIdx];
 
 					profile.gamesWon++;
+					profile.history.push({ against: loser, won: true, date: now });
 
 					if (nextRank && nextRank.wins <= profile.gamesWon) {
 						const currentRank = ranks[nextRankIdx - 1];
@@ -54,6 +56,8 @@ export const submitResult = async (interaction: SelectMenuInteraction<'cached'>)
 							await interaction.followUp(`${userMention(id)}, you ranked up to a ${nextRank.name}!`);
 						} catch {}
 					}
+				} else {
+					profile.history.push({ against: winner, won: false, date: now });
 				}
 			});
 

@@ -5,6 +5,10 @@ import { viewLeaderboard } from '../handlers/viewLeaderboard';
 import { submitResult } from '../handlers/submitResult';
 import { startDuel } from '../handlers/startDuel';
 import { viewRank } from '../handlers/viewRank';
+import { viewHistory } from '../handlers/viewHistory';
+import { addWin } from '../handlers/addWin';
+import { addLoss } from '../handlers/addLoss';
+import { viewStreak } from '../handlers/viewStreak';
 
 export const onInteractionCreate = async (interaction: Interaction) => {
 	if (!interaction.inCachedGuild()) {
@@ -24,6 +28,14 @@ export const onInteractionCreate = async (interaction: Interaction) => {
 		} else if (interaction.isCommand()) {
 			if (interaction.commandName === 'duel') {
 				await startDuel(interaction);
+			} else if (interaction.commandName === 'duel-history') {
+				await viewHistory(interaction);
+			} else if (interaction.commandName === 'duelist-winstreak') {
+				await viewStreak(interaction);
+			} else if (interaction.commandName === 'duel-win') {
+				await addWin(interaction);
+			} else if (interaction.commandName === 'duel-loss') {
+				await addLoss(interaction);
 			} else if (interaction.commandName === 'duelist-rank') {
 				await viewRank(interaction);
 			} else if (interaction.commandName === 'duelist-leaderboard') {

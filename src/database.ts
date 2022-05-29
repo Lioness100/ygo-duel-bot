@@ -2,10 +2,17 @@ import type { Snowflake } from 'discord.js';
 import { Low, JSONFile } from 'lowdb';
 import { readFile } from 'node:fs/promises';
 
+export interface HistoryEntry {
+	against: Snowflake;
+	won: boolean;
+	date: number;
+}
+
 export interface Profile {
 	gamesWon: number;
 	gamesPlayed: number;
 	timeInDuelsSum: number;
+	history: HistoryEntry[];
 }
 
 const adapter = new JSONFile('./assets/json/users.json');
