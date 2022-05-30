@@ -28,7 +28,7 @@ const rankCommand = new SlashCommandBuilder()
 	.addStringOption((option) =>
 		option //
 			.setName('type')
-			.setDescription('The type of card to display')
+			.setDescription('Will stay as your preferred type unless you change it, and can only be used when targeting yourself.')
 			.setChoices(
 				{ name: 'Spell', value: 'spell' },
 				{ name: 'Trap', value: 'trap' },

@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-assign */
 /* eslint-disable unicorn/no-array-reduce */
 import type { CommandInteraction } from 'discord.js';
 import { readdir } from 'node:fs/promises';
@@ -20,7 +21,17 @@ export const viewRank = async (interaction: CommandInteraction) => {
 	await interaction.deferReply();
 
 	const user = interaction.options.getUser('user') ?? interaction.user;
-	const type = (interaction.options.getString('type') as typeof types[number]) ?? 'effect';
+	const profile = (db.data[user.id] ??= { gamesPlayed: 0, gamesWon: 0, timeInDuelsSum: 0, history: [] });
+
+	const type =
+		(user.id === interaction.user.id
+			? ((interaction.options.getString('type') ?? profile.cardType) as typeof types[number])
+			: profile.cardType) ?? 'effect';
+
+	if (profile.cardType !== type) {
+		profile.cardType = type;
+		await db.write();
+	}
 
 	const card = await Canvas.loadImage(`./assets/images/cards/${type}.png`);
 
@@ -39,7 +50,6 @@ export const viewRank = async (interaction: CommandInteraction) => {
 		ctx.drawImage(attribute, 686, 55 + (type === 'link' ? 4 : 0), 70, 70);
 	}
 
-	const profile = db.data[user.id] ?? { gamesPlayed: 0, gamesWon: 0, timeInDuelsSum: 0 };
 	let rankIdx = ranks.findIndex(({ wins }) => wins > profile.gamesWon) - 1;
 	if (rankIdx === -2) {
 		rankIdx = ranks.length - 1;

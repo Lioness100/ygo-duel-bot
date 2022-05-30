@@ -12,6 +12,7 @@ export interface Profile {
 	gamesWon: number;
 	gamesPlayed: number;
 	timeInDuelsSum: number;
+	cardType?: string;
 	history: HistoryEntry[];
 }
 
