@@ -85,7 +85,10 @@ export const viewRank = async (interaction: CommandInteraction) => {
 
 		const atkDef = Math.min((rankIdx + 1) * 1000, 9999).toString();
 		ctx.fillText(atkDef, 514, 1079);
-		ctx.fillText(atkDef, type === 'link' ? 722 : 675, 1079);
+
+		if (type !== 'link') {
+			ctx.fillText(atkDef, 675, 1079);
+		}
 	}
 
 	ctx.font = 'italic medium 27px Stone Serif LT Italic';
