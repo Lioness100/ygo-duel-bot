@@ -24,3 +24,11 @@ db.data ??= {};
 
 export { db };
 export const ranks: { name: string; role: Snowflake; wins: number }[] = JSON.parse(await readFile('./assets/json/ranks.json', 'utf8'));
+
+const adapter2 = new JSONFile('./assets/json/users.json');
+const tiers = new Low(adapter2) as Exclude<Low, 'data'> & { data: Record<'md' | 'dl', Record<string, string[]>> };
+
+await tiers.read();
+tiers.data ??= { md: {}, dl: {} };
+
+export { tiers };

@@ -4,13 +4,16 @@ import 'dotenv/config';
 import { Client, Collection, Intents, LimitedCollection } from 'discord.js';
 import { onInteractionCreate } from './listeners/interactionCreate';
 import { onGuildMemberAdd } from './listeners/guildMemberAdd';
+import { fetchTierList, makeEmbed } from './utils/getTierList';
+import { tiers } from './database';
 
 const necessaryManagers = new Set([
 	'GuildManager', //
 	'GuildChannelManager',
 	'ChannelManager',
 	'RoleManager',
-	'PermissionOverwriteManager'
+	'PermissionOverwriteManager',
+	'MessageManager'
 ]);
 
 const client = new Client({
@@ -33,3 +36,23 @@ client //
 	.on('interactionCreate', onInteractionCreate);
 
 await client.login();
+
+setInterval(async () => {
+	for (const type of ['md', 'dl'] as const) {
+		const fetched = await fetchTierList(type);
+		const db = tiers.data[type];
+
+		if (JSON.stringify(fetched) === JSON.stringify(db.tiers)) {
+			return;
+		}
+
+		// eslint-disable-next-line no-const-assign
+		tiers.data[type] = fetched;
+		await tiers.write();
+
+		const channel = client.channels.cache.get(process.env.TIER_LIST_CHANNEl!);
+		if (channel?.isText()) {
+			await channel.send({ embeds: [makeEmbed(type, fetched)] });
+		}
+	}
+}, 1000 * 60 * 60 * 24);

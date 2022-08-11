@@ -88,8 +88,31 @@ const leaderboardCommand = new SlashCommandBuilder() //
 	.setName('duelist-leaderboard')
 	.setDescription('View the dueler leaderboard');
 
+const resetCommand = new SlashCommandBuilder() //
+	.setName('duel-season-reset')
+	.setDescription('Reset the current season');
+
+const tierListCommand = new SlashCommandBuilder() //
+	.setName('tier-list-md')
+	.setDescription('Show the master duel tier list');
+
+const tierListCommand2 = new SlashCommandBuilder() //
+	.setName('tier-list-dl')
+	.setDescription('Show the duel links tier list');
+
 const bot = (await rest.get(Routes.user())) as APIUser;
 
 await rest.put(Routes.applicationGuildCommands(bot.id, process.env.GUILD_ID!), {
-	body: [duelCommand, rankCommand, historyCommand, addWinCommand, addLossCommand, leaderboardCommand, winStreakCommand]
+	body: [
+		duelCommand,
+		rankCommand,
+		historyCommand,
+		addWinCommand,
+		addLossCommand,
+		leaderboardCommand,
+		winStreakCommand,
+		resetCommand,
+		tierListCommand,
+		tierListCommand2
+	]
 });

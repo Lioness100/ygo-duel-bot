@@ -9,6 +9,8 @@ import { viewHistory } from '../handlers/viewHistory';
 import { addWin } from '../handlers/addWin';
 import { addLoss } from '../handlers/addLoss';
 import { viewStreak } from '../handlers/viewStreak';
+import { showTierList } from '../handlers/showTierList';
+import { resetSeason } from '../handlers/resetSeason';
 
 export const onInteractionCreate = async (interaction: Interaction) => {
 	if (!interaction.inCachedGuild()) {
@@ -40,6 +42,10 @@ export const onInteractionCreate = async (interaction: Interaction) => {
 				await viewRank(interaction);
 			} else if (interaction.commandName === 'duelist-leaderboard') {
 				await viewLeaderboard(interaction);
+			} else if (interaction.commandName === 'duel-season-reset') {
+				await resetSeason(interaction);
+			} else if (interaction.commandName.startsWith('tier-list-')) {
+				await showTierList(interaction, interaction.commandName.split('-')[2] as 'md' | 'dl');
 			}
 		}
 	} catch (error) {
