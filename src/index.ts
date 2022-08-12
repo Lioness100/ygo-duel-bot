@@ -50,7 +50,8 @@ setInterval(async () => {
 		tiers.data[type] = fetched;
 		await tiers.write();
 
-		const channel = client.channels.cache.get(process.env.TIER_LIST_CHANNEl!);
+		const id = type === 'md' ? process.env.MD_TIER_LIST_CHANNEl! : process.env.DL_TIER_LIST_CHANNEL!;
+		const channel = client.channels.cache.get(id);
 		if (channel?.isText()) {
 			await channel.send({ embeds: [makeEmbed(type, fetched)] });
 		}
